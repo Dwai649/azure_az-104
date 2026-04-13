@@ -7,7 +7,7 @@
             "type": "String"
         },
         "virtualNetworks_webvmnet_02_name": {
-            "defaultValue": "webvmnet_02",
+            "defaultValue": "VNET_DEV_02",
             "type": "String"
         },
         "publicIPAddresses_webvm02_ip_name": {
