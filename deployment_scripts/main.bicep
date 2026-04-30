@@ -21,16 +21,6 @@ resource subnet01 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' = {
     addressPrefix: '172.18.10.0/25'
   }
 }
-
-resource subnet02 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' = {
-  name: 'websubnet02'
-  parent: vnet
-  properties: {
-    addressPrefix: '172.18.10.128/25'
-  }
-}
-
-
 resource nsg 'Microsoft.Network/networkSecurityGroups@2023-05-01' = {
   name: 'webvm01-nsg'
   location: location
