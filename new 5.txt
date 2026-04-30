@@ -1,0 +1,263 @@
+ssh-copy-id -i ~/.ssh/ansible.pub root@192.168.29.120
+
+
+
+docker push admindex01/devopstest01_repo:tagname
+
+
+
+
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "availabilityZones": {
+            "type": "Array"
+        },
+        "location": {
+            "type": "String"
+        },
+        "containerName": {
+            "type": "String"
+        },
+        "imageType": {
+            "allowedValues": [
+                "Public",
+                "Private"
+            ],
+            "type": "String"
+        },
+        "imageName": {
+            "type": "String"
+        },
+        "osType": {
+            "allowedValues": [
+                "Linux",
+                "Windows"
+            ],
+            "type": "String"
+        },
+        "numberCpuCores": {
+            "type": "String"
+        },
+        "memory": {
+            "type": "String"
+        },
+        "restartPolicy": {
+            "allowedValues": [
+                "OnFailure",
+                "Always",
+                "Never"
+            ],
+            "type": "String"
+        },
+        "sku": {
+            "allowedValues": [
+                "Standard",
+                "Confidential",
+                "Dedicated"
+            ],
+            "type": "String"
+        },
+        "imageRegistryLoginServer": {
+            "type": "String"
+        },
+        "imageUsername": {
+            "type": "String"
+        },
+        "imagePassword": {
+            "type": "SecureString"
+        },
+        "ipAddressType": {
+            "type": "String"
+        },
+        "ports": {
+            "type": "Array"
+        },
+        "subnetName": {
+            "type": "String"
+        },
+        "subnetAddressPrefix": {
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "ContainerInstanceDeployment-20260405211151",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "availabilityZones": {
+                        "value": "[parameters('availabilityZones')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "containerName": {
+                        "value": "[parameters('containerName')]"
+                    },
+                    "imageName": {
+                        "value": "[parameters('imageName')]"
+                    },
+                    "osType": {
+                        "value": "[parameters('osType')]"
+                    },
+                    "numberCpuCores": {
+                        "value": "[parameters('numberCpuCores')]"
+                    },
+                    "memory": {
+                        "value": "[parameters('memory')]"
+                    },
+                    "restartPolicy": {
+                        "value": "[parameters('restartPolicy')]"
+                    },
+                    "sku": {
+                        "value": "[parameters('sku')]"
+                    },
+                    "imageRegistryLoginServer": {
+                        "value": "[parameters('imageRegistryLoginServer')]"
+                    },
+                    "imageUsername": {
+                        "value": "[parameters('imageUsername')]"
+                    },
+                    "imagePassword": {
+                        "value": "[parameters('imagePassword')]"
+                    },
+                    "ipAddressType": {
+                        "value": "[parameters('ipAddressType')]"
+                    },
+                    "ports": {
+                        "value": "[parameters('ports')]"
+                    },
+                    "subnetName": {
+                        "value": "[parameters('subnetName')]"
+                    },
+                    "subnetAddressPrefix": {
+                        "value": "[parameters('subnetAddressPrefix')]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "availabilityZones": {
+                            "type": "array"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "containerName": {
+                            "type": "string"
+                        },
+                        "imageName": {
+                            "type": "string"
+                        },
+                        "osType": {
+                            "type": "string",
+                            "allowedValues": [
+                                "Linux",
+                                "Windows"
+                            ]
+                        },
+                        "numberCpuCores": {
+                            "type": "string"
+                        },
+                        "memory": {
+                            "type": "string"
+                        },
+                        "restartPolicy": {
+                            "type": "string",
+                            "allowedValues": [
+                                "OnFailure",
+                                "Always",
+                                "Never"
+                            ]
+                        },
+                        "sku": {
+                            "type": "string",
+                            "allowedValues": [
+                                "Standard",
+                                "Confidential",
+                                "Dedicated"
+                            ]
+                        },
+                        "imageRegistryLoginServer": {
+                            "type": "string"
+                        },
+                        "imageUsername": {
+                            "type": "string"
+                        },
+                        "imagePassword": {
+                            "type": "secureString"
+                        },
+                        "ipAddressType": {
+                            "type": "string"
+                        },
+                        "ports": {
+                            "type": "array"
+                        },
+                        "subnetName": {
+                            "type": "string"
+                        },
+                        "subnetAddressPrefix": {
+                            "type": "string"
+                        }
+                    },
+                    "resources": [
+                        {
+                            "location": "[parameters('location')]",
+                            "name": "[parameters('containerName')]",
+                            "type": "Microsoft.ContainerInstance/containerGroups",
+                            "apiVersion": "2022-10-01-preview",
+                            "zones": "[parameters('availabilityZones')]",
+                            "properties": {
+                                "containers": [
+                                    {
+                                        "name": "[parameters('containerName')]",
+                                        "properties": {
+                                            "image": "[parameters('imageName')]",
+                                            "resources": {
+                                                "requests": {
+                                                    "cpu": "[float(parameters('numberCpuCores'))]",
+                                                    "memoryInGB": "[float(parameters('memory'))]"
+                                                }
+                                            },
+                                            "ports": "[parameters('ports')]"
+                                        }
+                                    }
+                                ],
+                                "restartPolicy": "[parameters('restartPolicy')]",
+                                "osType": "[parameters('osType')]",
+                                "sku": "[parameters('sku')]",
+                                "imageRegistryCredentials": [
+                                    {
+                                        "server": "[parameters('imageRegistryLoginServer')]",
+                                        "username": "[parameters('imageUsername')]",
+                                        "password": "[parameters('imagePassword')]"
+                                    }
+                                ],
+                                "ipAddress": {
+                                    "type": "[parameters('ipAddressType')]",
+                                    "ports": "[parameters('ports')]"
+                                },
+                                "subnetIds": [
+                                    {
+                                        "id": "/subscriptions/7a1f425c-209d-41fc-a5ec-fdfab39995a7/resourceGroups/Dev_SBX_01/providers/Microsoft.Network/virtualNetworks/webvmnet_01/subnets/websubnet01"
+                                    }
+                                ]
+                            },
+                            "tags": {},
+                            "dependsOn": []
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
