@@ -6,7 +6,7 @@
     "variables": {},
     "resources": [
         {
-            "name": "nic-web-dev-eus-01",
+            "name": "[concat('nic-web-', resourceGroup().name, '-', '01')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2024-07-01",
             "location": "[resourceGroup().location]",
@@ -17,7 +17,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'vnet-dev-eus-01', 'snet-dev-eus-web-01')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'vnet-dev-eus-01', 'vnet-dev-eus-01-subnet01')]"
                             },
                             "publicIPAddress":{
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses','pip-web-dev-eus-01')]"

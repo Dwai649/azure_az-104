@@ -4,22 +4,23 @@
     "parameters": {},
     "functions": [],
     "variables": {
-        "nsgName": "nsg-az104-shared-eus-01",
-        "rulesshName": "in-allow-ssh-admin",
+        "location": "[resourceGroup().location]",
+        "nsgName": "nsg-dev-01",
+        "rulesshName": "allow-ssh-admin",
         "rulesshPriority": 400,
         "sshPort": "22",
         "svcTagInternet": "Internet",
-    "httpDestIp": "10.0.0.4",
-    "httpPort": "80",
-    "ruleHttpName": "in-allow-http-from-internet-to-10-0-0-4",
-    "ruleHttpPriority": 410
+        "httpDestIp": "10.0.0.4",
+        "httpPort": "80",
+        "ruleHttpName": "in-allow-http-from-internet-to-10-0-0-4",
+        "ruleHttpPriority": 410
     },
     "resources": [
         {
             "name": "[variables('nsgName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2024-07-01",
-            "location": "[resourceGroup().location]",
+            "location": "[variables('location')]",
             "properties": {
                 "securityRules": [
                     {
