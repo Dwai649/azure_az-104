@@ -20,11 +20,53 @@
     },
     "resources": [
 
+             {
+            "name": "[variables('nsgName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2024-07-01",
+            "location": "[variables('location')]",
+
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "[variables('rulesshName')]",
+                        "properties": {
+                            "description": "[variables('rulesshName')]",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "[variables('sshPort')]",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": "[variables('rulesshPriority')]",
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "[variables('ruleHttpName')]",
+                        "properties": {
+                            "description": "[variables('ruleHttpName')]",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "[variables('httpPort')]",
+                            "sourceAddressPrefix": "[variables('svcTagInternet')]",
+                            "destinationAddressPrefix": "[variables('httpDestIp')]",
+                            "access": "Allow",
+                            "priority": "[variables('ruleHttpPriority')]",
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+
           {
             "name": "vnet-dev-eus-01",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2024-07-01",
-            "location": "eastus",
+            "location": "centralindia",
+             "dependsOn": [
+                     "[resourceId('Microsoft.Network/networkSecurityGroups', 'nsg-dev-01')]"],
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -72,10 +114,14 @@
             }
         },
          {
-            "name": "[concat('nic-web-', resourceGroup().name, '-', '01')]",
+            "name": "[concat('nic-web-', resourceGroup().name)]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2024-07-01",
             "location": "[resourceGroup().location]",
+            "dependsOn": [
+                     "[resourceId('Microsoft.Network/virtualNetworks', 'vnet-dev-eus-01')]",
+                      "[resourceId('Microsoft.Network/publicIPAddresses','pip-web-dev-eus-01')]"
+                        ],
             "properties": {
                 "ipConfigurations": [
                     {
@@ -92,92 +138,11 @@
                     }
                 ]
             }
-        },
-
-          {
-            "name": "[variables('nsgName')]",
-            "type": "Microsoft.Network/networkSecurityGroups",
-            "apiVersion": "2024-07-01",
-            "location": "[variables('location')]",
-            "properties": {
-                "securityRules": [
-                    {
-                        "name": "[variables('rulesshName')]",
-                        "properties": {
-                            "description": "[variables('rulesshName')]",
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "[variables('sshPort')]",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": "[variables('rulesshPriority')]",
-                            "direction": "Inbound"
-                        }
-                    },
-                    {
-                        "name": "[variables('ruleHttpName')]",
-                        "properties": {
-                            "description": "[variables('ruleHttpName')]",
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "[variables('httpPort')]",
-                            "sourceAddressPrefix": "[variables('svcTagInternet')]",
-                            "destinationAddressPrefix": "[variables('httpDestIp')]",
-                            "access": "Allow",
-                            "priority": "[variables('ruleHttpPriority')]",
-                            "direction": "Inbound"
-                        }
-                    }
-                ]
-            }
-        },
-
-        {
-          "name": "vm-dev-eus-web-01",
-          "type": "Microsoft.Compute/virtualMachines",
-          "apiVersion": "2024-11-01",
-          "location": "[resourceGroup().location]",
-           "properties":{
-             "hardwareProfile": {
-            "vmSize": "Standard_D2alds_v6"
-        },
-        "osProfile": {
-            "computerName": "vm-dev-eus-web-01",
-            "adminUsername": "linuxadmin",
-            "adminPassword": "Azure@123"
-        },
-        "storageProfile": {
-            "imageReference": {
-                "publisher": "Canonical",
-                "offer": "ubuntu-24_04-lts",
-                "sku": "server",
-                "version": "latest"
-            },
-            "osDisk": {
-                "name": "osdisk-vm-dev-eus-web-01",
-                "caching": "ReadWrite",
-                "createOption": "FromImage"
-            }
-        },
-
-            "networkProfile": {
-            "networkInterfaces": [
-                {
-                    "id": "[resourceId('Microsoft.Network/networkInterfaces', 'nic-web-RG-AZ104-DEV-01-01')]"
-                }
-            ]
         }
+
         
 
-
-
-
-           }
-
-
-
-        }
+     
 
     ],
      
