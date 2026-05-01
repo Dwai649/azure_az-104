@@ -6,7 +6,7 @@
     "variables": {},
     "resources": [
         {
-            "name": "[concat(copyIndex(),'stcloudhubdeveus10')]",
+            "name": "[format('{0}strg{1}', copyIndex(), uniqueString(resourceGroup().id))]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2025-01-01",
             "location": "eastus",
@@ -22,3 +22,5 @@
     ],
     "outputs": {}
 }
+
+ 

@@ -19,18 +19,18 @@
                 },
                 "subnets": [
                     {
-                        "name": "snet-dev-eus-web-01",
+                        "name": "[concat('vnet-dev-eus-01','-','subnet01')]" ,
                         "properties": {
-                            "addressPrefix": "10.0.0.0/24",
+                            "addressPrefix": "10.0.1.0/24",
                             "networkSecurityGroup":{
                             "id":"[resourceId('Microsoft.Network/networkSecurityGroups','nsg-az104-shared-eus-01')]"
                             }
                         }
                     },
                     {
-                        "name": "snet-dev-eus-db-01",
+                        "name": "[concat('vnet-dev-eus-01','-','subnet02')]" ,
                         "properties": {
-                            "addressPrefix": "10.0.1.0/24",
+                            "addressPrefix": "10.0.2.0/24",
                             "networkSecurityGroup":{
                             "id":"[resourceId('Microsoft.Network/networkSecurityGroups','nsg-az104-shared-eus-01')]"
                             }
