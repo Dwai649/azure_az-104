@@ -1,7 +1,25 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+           "vmName": {
+            "type": "string",
+            "defaultValue": "vm-dev-eus-web-01",
+            "metadata": {
+                "description": "Virtual machine resource & computer name."
+            }
+        },        
+            "adminUsername":{
+                "type": "string",
+                "defaultValue":"linuxadmin",
+                "metadata": { "description": "Admin username for the VM." }
+            },
+            "adminPassword": {
+                "type": "string",
+                "defaultValue":"Mx3r4tun@22",
+                "metadata": { "description": "Admin password for the VM " }
+            }
+    },
     "functions": [],
     "variables": {
 
@@ -114,7 +132,7 @@
             }
         },
          {
-            "name": "[concat('nic-web-', resourceGroup().name)]",
+            "name": "nic-web-dev-eus-01",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2024-07-01",
             "location": "[resourceGroup().location]",
@@ -138,8 +156,46 @@
                     }
                 ]
             }
-        }
+        },
+          {
+             "name": "[parameters('vmName')]",
+    "type": "Microsoft.Compute/virtualMachines",
 
+    "apiVersion": "2024-11-01",
+    "location": "[resourceGroup().location]",
+    "dependsOn":[ "[resourceId('Microsoft.Network/networkInterfaces', 'nic-web-dev-eus-01')]"],
+    "properties": {
+        "hardwareProfile": {
+            "vmSize": "Standard_D2alds_v6"
+        },
+        "osProfile": {
+            "computerName": "[parameters('vmName')]",
+            "adminUsername": "[parameters('adminUsername')]",
+            "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+            "imageReference": {
+                "publisher": "Canonical",
+                "offer": "ubuntu-24_04-lts",
+                "sku": "server",
+                "version": "latest"
+            },
+            "osDisk": {
+                "name": "osdisk-vm-dev-eus-web-01",
+                "caching": "ReadWrite",
+                "createOption": "FromImage"
+            }
+        },
+        
+        "networkProfile": {
+            "networkInterfaces": [
+                {
+                    "id": "[resourceId('Microsoft.Network/networkInterfaces', 'nic-web-dev-eus-01')]"
+                }
+            ]
+        }
+    }
+}      
         
 
      
