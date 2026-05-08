@@ -82,7 +82,7 @@
             "name": "vnet-dev-eus-01",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2024-07-01",
-            "location": "centralindia",
+            "location": "[variables('location')]",
              "dependsOn": [
                      "[resourceId('Microsoft.Network/networkSecurityGroups', 'nsg-dev-01')]"],
             "properties": {
@@ -195,8 +195,28 @@
             ]
         }
     }
-}      
-        
+},
+{
+  "type": "Microsoft.Compute/virtualMachines/extensions",
+  "name": "[concat(parameters('vmName'), '/installNginx')]",
+  "apiVersion": "2024-11-01",
+  "location": "[resourceGroup().location]",
+  "dependsOn": [
+    "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+  ],
+  "properties": {
+    "publisher": "Microsoft.Azure.Extensions",
+    "type": "CustomScript",
+    "typeHandlerVersion": "2.1",
+    "autoUpgradeMinorVersion": true,
+    "settings": {
+      "fileUris": [
+        "https://strgwrh01.blob.core.windows.net/scripts/setup-nginx.sh"
+      ],
+      "commandToExecute": "bash install-nginx.sh"
+    }
+  }
+}
 
      
 
