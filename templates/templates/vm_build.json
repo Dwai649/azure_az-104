@@ -213,7 +213,7 @@
       "fileUris": [
         "https://strgwrh01.blob.core.windows.net/scripts/setup-nginx.sh"
       ],
-      "commandToExecute": "bash install-nginx.sh"
+      "commandToExecute": "bash setup-nginx.sh"
     }
   }
 }
