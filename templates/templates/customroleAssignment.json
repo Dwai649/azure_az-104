@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+   "principalId": {
+      "type": "string",
+      "metadata": {
+        "description": "principalId if the user that will be given contributor access to the resourceGroup"
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleDefinitions",
+      "name": "ab71dee2-c7aa-4245-93ff-f3f5c4199f87",
+      "apiVersion": "2022-04-01",
+      "properties": {
+        "roleName": "Storage Contributor Data AIOps",
+        "description": "Custom role for storage and network contributor access",
+        "assignableScopes": [
+          "/subscriptions/6530ad9e-bba6-46a3-9187-3328d269ce37"
+        ],
+        "permissions": [
+          {
+            "actions": [
+              "Microsoft.Storage/storageAccounts/*",
+              "Microsoft.Resources/resources/read",
+              "Microsoft.Resources/subscriptions/read",
+              "Microsoft.Resources/subscriptions/resourceGroups/read",
+              "Microsoft.Resources/deployments/read",
+              "Microsoft.Network/virtualNetworks/*"
+            ],
+            "notActions": [],
+            "dataActions": [],
+            "notDataActions": []
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "name": "[guid(parameters('principalId'), 'ab71dee2-c7aa-4245-93ff-f3f5c4199f87')]",
+      "apiVersion": "2022-04-01",
+      "properties": {
+        "roleDefinitionId": "/subscriptions/6530ad9e-bba6-46a3-9187-3328d269ce37/providers/Microsoft.Authorization/roleDefinitions/ab71dee2-c7aa-4245-93ff-f3f5c4199f87",
+        "principalId": "[parameters('groupObjectId')]",
+        "principalType": "Group"
+      }
+    }
+  ]
+}
