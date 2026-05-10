@@ -1,0 +1,207 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+           "vmName": {
+            "type": "string",
+            "defaultValue": "vm-dev-eus-web-02",
+            "metadata": {
+                "description": "Virtual machine resource & computer name."
+            }
+        },        
+            "adminUsername":{
+                "type": "string",
+                "defaultValue":"linuxadmin",
+                "metadata": { "description": "Admin username for the VM." }
+            },
+            "adminPassword": {
+                "type": "string",
+                "defaultValue":"Mx3r4tun@22",
+                "metadata": { "description": "Admin password for the VM " }
+            }
+    },
+    "functions": [],
+    "variables": {
+
+        "location": "[resourceGroup().location]",
+        "nsgName": "nsg-dev-02",
+        "rulesshName": "allow-ssh-admin",
+        "rulesshPriority": 400,
+        "sshPort": "22",
+        "svcTagInternet": "Internet",
+        "httpDestIp": "10.0.0.4",
+        "httpPort": "80",
+        "ruleHttpName": "in-allow-http-from-internet-to-10-0-0-4",
+        "ruleHttpPriority": 410
+
+
+    },
+    "resources": [
+
+             {
+            "name": "[variables('nsgName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2024-07-01",
+            "location": "[variables('location')]",
+
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "[variables('rulesshName')]",
+                        "properties": {
+                            "description": "[variables('rulesshName')]",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "[variables('sshPort')]",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": "[variables('rulesshPriority')]",
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "[variables('ruleHttpName')]",
+                        "properties": {
+                            "description": "[variables('ruleHttpName')]",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "[variables('httpPort')]",
+                            "sourceAddressPrefix": "[variables('svcTagInternet')]",
+                            "destinationAddressPrefix": "[variables('httpDestIp')]",
+                            "access": "Allow",
+                            "priority": "[variables('ruleHttpPriority')]",
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+
+          {
+            "name": "vnet-dev-eus-02",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2024-07-01",
+            "location": "[variables('location')]",
+             "dependsOn": [
+                     "[resourceId('Microsoft.Network/networkSecurityGroups', 'nsg-dev-02')]"],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[concat('vnet-dev-eus-02','-','subnet01')]" ,
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24",
+                            "networkSecurityGroup": {
+
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups','nsg-dev-02')]"
+
+                            }
+                            
+                        }
+                    },
+                    {
+                        "name": "[concat('vnet-dev-eus-02','-','subnet02')]" ,
+                        "properties": {
+                            "addressPrefix": "10.0.2.0/24",
+                              "networkSecurityGroup": {
+
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups','nsg-dev-02')]"
+                                
+                            }
+                         
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "pip-web-dev-eus-02",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2024-07-01",
+            "location": "[resourceGroup().location]",
+            "sku":{
+                "name":"Standard"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Static"
+            }
+        },
+         {
+            "name": "nic-web-dev-eus-02",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2024-07-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                     "[resourceId('Microsoft.Network/virtualNetworks', 'vnet-dev-eus-02')]",
+                      "[resourceId('Microsoft.Network/publicIPAddresses','pip-web-dev-eus-02')]"
+                        ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig-web-01",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'vnet-dev-eus-02', 'vnet-dev-eus-02-subnet01')]"
+                            },
+                            "publicIPAddress":{
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses','pip-web-dev-eus-02')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+          {
+             "name": "[parameters('vmName')]",
+    "type": "Microsoft.Compute/virtualMachines",
+
+    "apiVersion": "2024-07-01",
+    "location": "[resourceGroup().location]",
+    "dependsOn":[ "[resourceId('Microsoft.Network/networkInterfaces', 'nic-web-dev-eus-02')]"],
+    "properties": {
+        "hardwareProfile": {
+            "vmSize": "Standard_D2alds_v6"
+        },
+        "osProfile": {
+            "computerName": "[parameters('vmName')]",
+            "adminUsername": "[parameters('adminUsername')]",
+            "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+            "imageReference": {
+                "publisher": "Canonical",
+                "offer": "ubuntu-24_04-lts",
+                "sku": "server",
+                "version": "latest"
+            },
+            "osDisk": {
+                "name": "osdisk-vm-dev-eus-web-01",
+                "caching": "ReadWrite",
+                "createOption": "FromImage"
+            }
+        },
+        
+        "networkProfile": {
+            "networkInterfaces": [
+                {
+                    "id": "[resourceId('Microsoft.Network/networkInterfaces', 'nic-web-dev-eus-02')]"
+                }
+            ]
+        }
+    }
+}
+
+
+     
+
+    ],
+     
+    
+    "outputs": {}
+}
