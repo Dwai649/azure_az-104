@@ -29,7 +29,7 @@
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2025-05-01",
             "name": "[parameters('networkSecurityGroups_nsg_dev_01_name')]",
-            "location": "westus",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "securityRules": [
                     {
@@ -54,7 +54,7 @@
                             "sourcePortRange": "*",
                             "destinationPortRange": "80",
                             "sourceAddressPrefix": "Internet",
-                            "destinationAddressPrefix": "10.0.0.4",
+                            "destinationAddressPrefix": "*",
                             "access": "Allow",
                             "priority": 410,
                             "direction": "Inbound"
@@ -142,7 +142,7 @@
             "kind": "StorageV2",
             "properties": {
                 "defaultToOAuthAuthentication": false,
-                "publicNetworkAccess": "Enabled",
+                "publicNetworkAccess": "Disabled",
                 "allowCrossTenantReplication": false,
                 "azureFilesIdentityBasedAuthentication": {
                     "directoryServiceOptions": "None"
@@ -202,7 +202,7 @@
             "properties": {
                 "shareDeleteRetentionPolicy": {
                     "enabled": true,
-                    "days": 10
+                    "days": 7
                 }
             }
         },
