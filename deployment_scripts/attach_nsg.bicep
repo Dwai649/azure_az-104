@@ -1,4 +1,4 @@
-resource nsg 'Microsoft.Network/networkSecurityGroups@2025-05-01' existing ={name: 'nic-web-wus-01'}
+resource nsg 'Microsoft.Network/networkSecurityGroups@2025-05-01' existing ={name: 'nsg-dev-01'}
 
 resource vnet 'Microsoft.Network/virtualNetworks@2025-05-01' existing ={name: 'vnet-web-usw-01'}
 
