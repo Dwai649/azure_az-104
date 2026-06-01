@@ -1,0 +1,70 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+        "location":{"value": "westus"},
+        "storageAccountName":{"value": "strgxfwrh01"},
+        "vnet":{
+            "value":{
+              "name": "vnet-dev-us-01",
+              "addressPrefixes": ["10.0.0.0/16"],
+              "subnets":
+              [
+                {"name":"snet-dev-us-01","prefix":"10.0.1.0/24"},
+                {"name":"snet-dev-us-02","prefix":"10.0.2.0/24"}
+              ]              
+
+        }
+
+    },
+    "nsg":{
+        "value": {
+            "name": "nsg-dev-us-01",
+            "rules": [              
+                 {
+        "name": "rulesshName",
+        "properties": {
+          "description": "rule_for_ssh_access",
+          "access": "Allow",
+          "direction": "Inbound",
+          "protocol": "Tcp",
+          "sourceAddressPrefix": "*",
+          "sourcePortRange": "*",
+          "destinationAddressPrefix": "*",
+          "destinationPortRange": "22"
+
+        }
+
+      },
+                {
+        "name": "rulehttpallow",
+        "properties": {
+          "description": "rule_for_HTTP_access",
+          "access": "Allow",
+          "direction": "Inbound",
+          "protocol": "Tcp",
+          "sourceAddressPrefix": "*",
+          "sourcePortRange": "*",
+          "destinationAddressPrefix": "*",
+          "destinationPortRange": "80"
+
+        }
+    
+    }
+
+
+
+
+
+
+            ]
+            
+
+}
+
+    }
+}
+}
+
+
