@@ -2,7 +2,17 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "linuxvmconfig":{
 
+            "value":{
+
+                "vmSize": "Standard_D2alds_v6",
+                "basename": "vm-dev",
+                "count": 2
+
+
+            }
+        },
         "location":{"value": "westus"},
         "storageAccountName":{"value": "strgxfwrh01"},
         "vnet":{
@@ -26,6 +36,7 @@
         "name": "rulesshName",
         "properties": {
           "description": "rule_for_ssh_access",
+          "priority":"120",
           "access": "Allow",
           "direction": "Inbound",
           "protocol": "Tcp",
@@ -41,6 +52,7 @@
         "name": "rulehttpallow",
         "properties": {
           "description": "rule_for_HTTP_access",
+          "priority": "130",
           "access": "Allow",
           "direction": "Inbound",
           "protocol": "Tcp",

@@ -4,6 +4,8 @@ param storageAccountName string
 
 param nsg object
 
+param linuxvmconfig object
+
 module devnet 'modules/network_01_vnet_subnet.bicep' = {
   name: 'dev-network'
   params: {
@@ -31,6 +33,25 @@ module networksecuritygroup 'modules/nsg.bicep' ={
   name: nsg.name
   rules: nsg.rules
   }
+
+
+}
+
+module VM 'modules/compute_VM.bicep' ={ 
+
+  name: 'vm_linux'
+  params:{ 
+    location: location
+    basename: linuxvmconfig.basename
+    vmSize: linuxvmconfig.vmSize
+    count: linuxvmconfig.count 
+    subnetId: devnet.outputs.subnetIds[0].id 
+
+
+  }
+
+
+
 
 
 }
