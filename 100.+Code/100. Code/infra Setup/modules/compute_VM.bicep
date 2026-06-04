@@ -60,7 +60,7 @@ resource vms 'Microsoft.Compute/virtualMachines@2025-11-01' = [for (vmName,i) in
 
     hardwareProfile: {
       
-      vmSize: 'Standard_B2ms'
+      vmSize: vmSize
 
 
     }

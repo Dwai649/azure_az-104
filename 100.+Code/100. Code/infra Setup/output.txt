@@ -1,0 +1,28 @@
+
+  Id     Duration CommandLine
+  --     -------- -----------
+   1        0.409 try { . "c:\Users\Dwaipayan Sarkar\AppData\Local\Programs\Microsoft VS Code\6a49527b96\resources\app\out\v…
+   2        0.166 cd '.\infra Setup\'
+   3        0.218 ls.exe -ltr --color=auto
+   4        0.023 cd .\deployment_scripts\
+   5        0.244 ls.exe -ltr --color=auto
+   6        0.016 cd ..
+   7        0.084 ls.exe -ltr --color=auto
+   8        0.098 .\100.+Code\
+   9        0.022 cd .\100.+Code\
+  10        0.098 ls.exe -ltr --color=auto
+  11        0.017 cd '.\100. Code\'
+  12        0.087 ls.exe -ltr --color=auto
+  13        0.004 cd '.\infra Setup\'
+  14        0.083 ls.exe -ltr --color=auto
+  15        0.029 cd .\params\
+  16        0.093 ls.exe -ltr --color=auto
+  17        0.004 cd ..
+  18        0.080 ls.exe -ltr --color=auto
+  19        0.016 cd .\modules\
+  20        0.072 ls.exe -ltr --color=auto
+  21        0.004 cd ..
+  22        0.073 ls.exe -ltr --color=auto
+  23       21.387 az login --tenant e8819bd8-f519-4795-b0e3-e46a45d74da1
+  24        3.565 az group list -o table
+

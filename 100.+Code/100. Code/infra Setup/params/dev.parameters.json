@@ -2,6 +2,21 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+
+        "linuxvmpassword":{
+
+            "reference":{
+                "keyvault":{
+                "id": "/subscriptions/7a1f425c-209d-41fc-a5ec-fdfab39995a7/resourceGroups/RG-AZ-WEB-01/providers/Microsoft.KeyVault/vaults/keyvltrz01"
+                },
+            "secretName": "linuxvmpass"
+            }
+
+        },
+
+
+
+
         "linuxvmconfig":{
 
             "value":{

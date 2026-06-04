@@ -6,6 +6,8 @@ param nsg object
 
 param linuxvmconfig object
 
+param linuxvmpassword string
+
 module devnet 'modules/network_01_vnet_subnet.bicep' = {
   name: 'dev-network'
   params: {
@@ -33,7 +35,7 @@ module networksecuritygroup 'modules/nsg.bicep' ={
   name: nsg.name
   rules: nsg.rules
   }
-
+dependsOn:[devnet]
 
 }
 
@@ -46,9 +48,12 @@ module VM 'modules/compute_VM.bicep' ={
     vmSize: linuxvmconfig.vmSize
     count: linuxvmconfig.count 
     subnetId: devnet.outputs.subnetIds[0].id 
+    adminPassword: linuxvmpassword
 
 
   }
+
+  dependsOn:[networksecuritygroup]
 
 
 
