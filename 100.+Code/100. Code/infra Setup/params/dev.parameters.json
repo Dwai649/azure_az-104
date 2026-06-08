@@ -4,7 +4,9 @@
     "parameters": {
 
         "bastion":{
+            
             "value":{
+                "name":"bastion-server1",
                 "pipname":"pip-bastion-01"
             }
         },

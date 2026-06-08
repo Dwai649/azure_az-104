@@ -14,3 +14,5 @@ resource publicip 'Microsoft.Network/publicIPAddresses@2025-05-01' = {
 
 
 }
+
+output id string = publicip.id

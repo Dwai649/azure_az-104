@@ -72,7 +72,15 @@ module baspip 'modules/public_ip.bicep' ={
     IPAllocationMethod:'Static'
   }
 
+}
 
+module bastionserver 'modules/bastion.bicep' ={ 
+  name:'bastionserver'
+  params:{ 
+    name:bastion.name
+    location:location
+    subnetId:devnet.outputs.subnetIds[2]
+    publicIp:baspip.outputs.id
 
-
+  }
 }
