@@ -3,6 +3,12 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
 
+        "bastion":{
+            "value":{
+                "pipname":"pip-bastion-01"
+            }
+        },
+
         "linuxvmpassword":{
 
             "reference":{
@@ -37,7 +43,8 @@
               "subnets":
               [
                 {"name":"snet-dev-us-01","prefix":"10.0.1.0/24"},
-                {"name":"snet-dev-us-02","prefix":"10.0.2.0/24"}
+                {"name":"snet-dev-us-02","prefix":"10.0.2.0/24"},
+                {"name":"AzureBastionSubnet","prefix":"10.0.3.0/24"}
               ]              
 
         }

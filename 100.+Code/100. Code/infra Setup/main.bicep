@@ -8,6 +8,8 @@ param linuxvmconfig object
 
 param linuxvmpassword string
 
+param bastion object
+
 module devnet 'modules/network_01_vnet_subnet.bicep' = {
   name: 'dev-network'
   params: {
@@ -55,6 +57,20 @@ module VM 'modules/compute_VM.bicep' ={
 
   dependsOn:[networksecuritygroup]
 
+
+
+
+
+}
+
+module baspip 'modules/public_ip.bicep' ={
+  name:'bastionpip'
+  params:{
+    name:bastion.pipname
+    location:location
+    sku_name:'Standard' 
+    IPAllocationMethod:'Static'
+  }
 
 
 
