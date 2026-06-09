@@ -79,7 +79,7 @@ module bastionserver 'modules/bastion.bicep' ={
   params:{ 
     name:bastion.name
     location:location
-    subnetId:devnet.outputs.subnetIds[2]
+    subnetId:devnet.outputs.subnetIds[2].id
     publicIp:baspip.outputs.id
 
   }
