@@ -2,26 +2,29 @@ param location string
 
 param vmSize  string 
 
-param lbBackendPoolId string
+param vmName string = 'CXDVDAP01LZ1'
+
+
 
 param adminUserName string = 'azureadmin'
 
 param adminPassword string 
 
+param nicName string = 'vmub-nic-01-wus'
+
 /*param vmName string 
 */
-param count int 
+
 param subnetId string
-var index = [for i in range(1,count): i]
-
-param basename string 
-
-var vmNames = [for i in index: 'vm-${basename}-${i}']
-var nicNames = [for i in index: 'nic-${basename}-${i}']
 
 
 
-resource nics 'Microsoft.Network/networkInterfaces@2025-05-01' = [ for (nicName,i) in nicNames:{
+
+
+
+
+
+resource nics 'Microsoft.Network/networkInterfaces@2025-05-01' = {
 
 
   name: nicName
@@ -36,11 +39,7 @@ resource nics 'Microsoft.Network/networkInterfaces@2025-05-01' = [ for (nicName,
           id: subnetId
 
         }
-        loadBalancerBackendAddressPools:[
-          {
-          id:lbBackendPoolId
-          }
-        ]
+     
 
 
 
@@ -57,10 +56,10 @@ resource nics 'Microsoft.Network/networkInterfaces@2025-05-01' = [ for (nicName,
 
 
 }
-]
 
 
-resource vms 'Microsoft.Compute/virtualMachines@2025-11-01' = [for (vmName,i) in vmNames:{
+
+resource vms 'Microsoft.Compute/virtualMachines@2025-11-01' = {
 
   name:vmName
   location: location
@@ -99,7 +98,7 @@ resource vms 'Microsoft.Compute/virtualMachines@2025-11-01' = [for (vmName,i) in
 
       networkInterfaces: [
         {
-        id: nics[i].id 
+        id: nics.id 
         properties: {primary: true}
         }
       ]
@@ -113,4 +112,4 @@ resource vms 'Microsoft.Compute/virtualMachines@2025-11-01' = [for (vmName,i) in
 
 
 }
-]
+
