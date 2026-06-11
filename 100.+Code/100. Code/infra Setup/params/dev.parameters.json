@@ -3,6 +3,12 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
 
+        "lbName":
+        {
+            "value":"lb_name_wus_01"
+
+        },
+
         "bastion":{
             
             "value":{

@@ -2,6 +2,8 @@ param location string
 param vnet object
 param storageAccountName string
 
+
+
 param nsg object
 
 param linuxvmconfig object
@@ -9,6 +11,8 @@ param linuxvmconfig object
 param linuxvmpassword string
 
 param bastion object
+
+param lbName string
 
 module devnet 'modules/network_01_vnet_subnet.bicep' = {
   name: 'dev-network'
@@ -51,6 +55,7 @@ module VM 'modules/compute_VM.bicep' ={
     count: linuxvmconfig.count 
     subnetId: devnet.outputs.subnetIds[0].id 
     adminPassword: linuxvmpassword
+    lbBackendPoolId:ilb.outputs.backendPoolId
 
 
   }
@@ -61,6 +66,15 @@ module VM 'modules/compute_VM.bicep' ={
 
 
 
+}
+
+module ilb 'modules/loadbalancer.bicep' = { 
+   name: 'ilb'
+   params: { 
+      location:location
+      lbName:lbName
+      subnetId:devnet.outputs.subnetIds[0].id
+   }
 }
 
 module baspip 'modules/public_ip.bicep' ={
@@ -83,4 +97,5 @@ module bastionserver 'modules/bastion.bicep' ={
     publicIp:baspip.outputs.id
 
   }
+  dependsOn:[devnet]
 }

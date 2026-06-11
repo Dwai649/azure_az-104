@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+      
+    
+
+       
+
+
+
+
+        "linuxvmconfig":{
+
+            "value":{
+
+                "vmSize": "Standard_D2alds_v6",
+                "basename": "vm-dev",
+                "count": 2
+
+
+            }
+        },
+        "location":{"value": "westus"},
+       
+        "vnet":{
+            "value":{
+              "name": "vnet-dev-us-02",
+              "addressPrefixes": ["10.0.0.0/16"],
+              "subnets":
+              [
+                {"name":"snet-stg-01","prefix":"10.0.1.0/24"}
+            
+              ]              
+
+        }
+    }
+}
+}
