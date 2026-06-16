@@ -1,6 +1,9 @@
 param location string
 param vnet object
-param linuxvmconifg object
+param linuxvmconfig object
+param linuxvmpassword string
+
+
 
 
 module stgvnet 'modules/network_01_vnet_subnet.bicep' ={
@@ -16,6 +19,18 @@ module stgvnet 'modules/network_01_vnet_subnet.bicep' ={
   }
 
 
+
+}
+
+module vmubn 'modules/computeVM_ubuntu.bicep' ={ 
+  name: 'vm_linux'
+  params:{ 
+    location:location
+    vmSize:linuxvmconfig.vmSize
+    adminPassword: linuxvmpassword
+    subnetId:stgvnet.outputs.subnetIds[0].id 
+
+  }
 
 }
 
