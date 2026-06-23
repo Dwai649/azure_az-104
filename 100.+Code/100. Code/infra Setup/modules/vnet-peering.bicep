@@ -13,6 +13,7 @@ resource 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@2025-07-01' =
   location: location
   properties:{ 
     
+    
 
 
 

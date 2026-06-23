@@ -21,9 +21,9 @@
 
             "reference":{
                 "keyvault":{
-                "id": "/subscriptions/7a1f425c-209d-41fc-a5ec-fdfab39995a7/resourceGroups/RG-AZ-WEB-01/providers/Microsoft.KeyVault/vaults/keyvltrz01"
+                "id": "/subscriptions/6530ad9e-bba6-46a3-9187-3328d269ce37/resourceGroups/RG-AZ104-DEV-01/providers/Microsoft.KeyVault/vaults/keyvlt01"
                 },
-            "secretName": "linuxvmpass"
+            "secretName": "vmkey01"
             }
 
         },
