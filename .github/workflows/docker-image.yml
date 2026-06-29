@@ -15,7 +15,9 @@ jobs:
           node-version: '24'
 
       - name: Build Docker image
-        run: docker build -f retail_app/Dockerfile \
-          -t retail_app:1.0.0 \
-          -t azacrimg:$(date +%s) \
-          ./retail_app
+        run: |
+            docker build \
+            -f retail_app/Dockerfile \
+            -t retail_app:1.0.0 \
+            -t azacrimg:$(date +%s) \
+             ./retail_app
