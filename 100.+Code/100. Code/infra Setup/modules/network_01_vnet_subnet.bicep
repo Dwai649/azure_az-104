@@ -6,6 +6,8 @@ param  addressPrefixes array
 @description('the subnets')
 param subnets array
 
+
+
 resource vnet 'Microsoft.Network/virtualNetworks@2025-05-01' ={
 
  name: name
@@ -19,7 +21,9 @@ resource vnet 'Microsoft.Network/virtualNetworks@2025-05-01' ={
       name: s.name 
       properties: {
         addressPrefix: s.prefix
+       
       }
+
 
 
     }
