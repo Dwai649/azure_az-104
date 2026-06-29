@@ -17,7 +17,7 @@ jobs:
       - name: Build Docker image
         run: |
             docker build \
-            -f retail_app/Dockerfile \
+            -f retail_app/dockerfile.yml \
             -t retail_app:1.0.0 \
             -t azacrimg:$(date +%s) \
              ./retail_app
