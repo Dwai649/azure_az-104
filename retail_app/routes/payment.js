@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
     invoiceId,
     amount,
     method,
-    status: 'Success'
+    status: 'Successful'
   });
 });
 

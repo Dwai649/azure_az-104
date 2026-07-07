@@ -26,9 +26,9 @@
 
             "reference":{
                 "keyvault":{
-                "id": "/subscriptions/6530ad9e-bba6-46a3-9187-3328d269ce37/resourceGroups/RG-AZ104-DEV-01/providers/Microsoft.KeyVault/vaults/keyvlt01"
+                "id": 
                 },
-            "secretName": "vmkey01"
+            "secretName": ""
 
             }
 

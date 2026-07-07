@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
     customer,
     items,
     totalAmount,
-    invoiceId: Math.floor(Math.random() * 10000)
+    invoiceId: Math.floor(Math.random() * 100)
   });
 });
 
