@@ -2,8 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
-
+    paths:
+      - 'retail_app/**'
+  
 jobs:
   build:
     runs-on: ubuntu-latest
