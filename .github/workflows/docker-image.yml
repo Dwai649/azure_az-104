@@ -2,16 +2,23 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    paths:
+      - 'retail_app/**'
   
-
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag azacrimg:$(date +%s)
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Build Docker image
+        run: |
+            docker build \
+            -f retail_app/dockerfile.yml \
+            -t retail_app:1.0.0 \
+            -t azacrimg:$(date +%s) \
+             ./retail_app
