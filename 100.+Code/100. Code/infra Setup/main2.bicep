@@ -3,6 +3,23 @@ param vnet object
 param linuxvmconfig object
 param linuxvmpassword string
 
+param nsg object
+
+module nsg01 'modules/nsg.bicep' = {
+  name: 'nsg01'
+  params: {
+    name: nsg.name
+    location: location
+    rules: nsg.rules
+    association: [
+      for s in vnet.subnets: {
+        vnetName: vnet.name
+        subnetName: s.name
+        addressprefix: s.prefix
+      }
+    ]
+  }
+}
 
 
 
@@ -31,6 +48,7 @@ module vmubn 'modules/computeVM_ubuntu.bicep' ={
     subnetId:stgvnet.outputs.subnetIds[0].id 
 
   }
+
 
 }
 

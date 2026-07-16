@@ -3,32 +3,19 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
 
-      
-    
-
-       
-
-
-
-
-        "linuxvmconfig":{
+    "linuxvmconfig":{
 
             "value":{
 
-                "vmSize": "Standard_D2alds_v6"
-                
-                
-
-
-            }
-        },
+                "vmSize": "Standard_D2alds_v6"}
+            },
           "linuxvmpassword":{
 
             "reference":{
                 "keyvault":{ 
-                "id": 
+                "id": "/subscriptions/6530ad9e-bba6-46a3-9187-3328d269ce37/resourceGroups/RG-NGINX-LB/providers/Microsoft.KeyVault/vaults/key-ams-vr-01"
                 },
-            "secretName": ""
+            "secretName": "vmlabkey"
 
             }
 
@@ -42,11 +29,53 @@
               "addressPrefixes": ["10.0.0.0/16"],
               "subnets":
               [
-                {"name":"snet-stg-01","prefix":"10.0.1.0/24"}
+                {"name":"snet-stg-01","prefix":"10.0.1.0/24"},
+                { "name":"snet-stg-02","prefix":"10.0.2.0/24"}
             
               ]              
 
         }
-    }
+    },
+
+
+    "nsg":{
+        "value": {
+            "name": "nsg-dev-us-01",
+            "rules": [              
+                 {
+        "name": "rulesshName",
+        "properties": {
+          "description": "rule_for_ssh_access",
+          "priority":"120",
+          "access": "Allow",
+          "direction": "Inbound",
+          "protocol": "Tcp",
+          "sourceAddressPrefix": "*",
+          "sourcePortRange": "*",
+          "destinationAddressPrefix": "*",
+          "destinationPortRange": "22"
+
+        }
+
+      },
+                {
+        "name": "rulehttpallow",
+        "properties": {
+          "description": "rule_for_HTTP_access",
+          "priority": "130",
+          "access": "Allow",
+          "direction": "Inbound",
+          "protocol": "Tcp",
+          "sourceAddressPrefix": "*",
+          "sourcePortRange": "*",
+          "destinationAddressPrefix": "*",
+          "destinationPortRange": "80"
+
+        }
+    
+    }]
+
+}
+}
 }
 }
