@@ -25,7 +25,7 @@
           "linuxvmpassword":{
 
             "reference":{
-                "keyvault":{
+                "keyvault":{ 
                 "id": 
                 },
             "secretName": ""
