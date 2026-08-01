@@ -6,7 +6,7 @@ router.post('/', (req, res) => {
   const { invoiceId, amount, method } = req.body;
 
   res.json({
-    message: 'Payment processed',
+    message: 'Payment processed successfully',
     invoiceId,
     amount,
     method,
