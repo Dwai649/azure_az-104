@@ -7,11 +7,11 @@ router.post('/', (req, res) => {
   const totalAmount = items.reduce((sum, i) => sum + i.quantity * i.price, 0);
 
   res.json({
-    message: 'Invoice generated',
+    message: 'Invoice generated please proceed',
     customer,
     items,
     totalAmount,
-    invoiceId: Math.floor(Math.random() * 100)
+    invoiceId: Math.floor(Math.random() * 10000)
   });
 });
 
