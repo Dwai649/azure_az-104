@@ -3,8 +3,11 @@ name: Docker Image CI
 on:
   push:
     paths:
-      - 'retail_app/**'
-  
+      - "retail_app/**"
+  pull_request:
+    paths:
+      - "retail_app/**"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,12 +16,24 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '22'   
 
       - name: Build Docker image
         run: |
-            docker build \
+          docker build \
             -f retail_app/dockerfile.yml \
-            -t retail_app:1.0.0 \
-            -t azacrimg:$(date +%s) \
-             ./retail_app
+            -t contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:1.0.0 \
+            -t contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:${{ github.sha }} \
+            ./retail_app
+
+      - name: Azure Container Registry Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }} 
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Push image
+        run: |
+          docker push contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:1.0.0
+          docker push contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:${{ github.sha }}
