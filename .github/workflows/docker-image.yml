@@ -35,5 +35,5 @@ jobs:
 
       - name: Push image
         run: |
-          docker push contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:1.0.0
-          docker push contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/retail_app:1.0.0
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/retail_app:${{ github.sha }} 
