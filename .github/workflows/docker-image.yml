@@ -21,7 +21,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -f retail_app/Dockerfile \
+            -f retail_app/dockerfile \
             -t contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:1.0.0 \
             -t contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:${{ github.sha }} \
             ./retail_app
