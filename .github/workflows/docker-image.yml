@@ -16,24 +16,25 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'   
+          node-version: '22'
+
+      - name: Azure Container Registry Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}   
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Build Docker image
         run: |
           docker build \
             -f retail_app/dockerfile.yml \
-            -t contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:1.0.0 \
-            -t contag01lz1-h3esedfsd7axgtg5.azurecr.io/retail_app:${{ github.sha }} \
+            -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/retail_app:1.0.0 \
+            -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/retail_app:${{ github.sha }} \
             ./retail_app
-
-      - name: Azure Container Registry Login
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }} 
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Push image
         run: |
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/retail_app:1.0.0
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/retail_app:${{ github.sha }} 
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/retail_app:${{ github.sha }}
+
